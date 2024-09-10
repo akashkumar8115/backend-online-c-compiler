@@ -7,7 +7,12 @@ const path = require('path');
 const os = require('os');
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: '*', // Allow only this origin
+    methods: 'GET,POST,DELETE,PUT', // Allow only these methods
+    allowedHeaders: 'Content-Type' // Allow only these headers
+}));
+
 app.use(bodyParser.json());
 
 // Helper function to clean up temporary files
