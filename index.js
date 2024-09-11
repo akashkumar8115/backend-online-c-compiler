@@ -32,7 +32,7 @@ const cleanUpFiles = (inputFile, outputFile) => {
 // POST route to compile and execute C++ code with input
 app.post('/run', (req, res) => {
     const code = req.body.code;
-    const input = req.body.input;
+    const input = req.body.input || ''; // Ensure input has a default value (empty string)
     const tempDir = os.tmpdir();  // Temporary directory to store the code file
     const inputFile = path.join(tempDir, 'temp.cpp');
     const outputFile = path.join(tempDir, 'temp');
@@ -59,22 +59,37 @@ app.post('/run', (req, res) => {
 
         // Run the compiled executable and pass the input using spawn
         const runProcess = spawn(outputFile, [], { stdio: ['pipe', 'pipe', 'pipe'] });
-        runProcess.stdin.write(input); // Pass input to the process
+
+        // Pass input to the process with a newline
+        runProcess.stdin.write(input + '\n'); 
         runProcess.stdin.end(); // Close input stream
 
         let output = '';
+        let errorOutput = '';
+
+        // Capture stdout (program output)
         runProcess.stdout.on('data', (data) => {
             output += data.toString();
         });
 
+        // Capture stderr (runtime errors)
         runProcess.stderr.on('data', (data) => {
-            console.error('Runtime Error:', data.toString());
-            return res.status(500).json({ output: `Runtime Error:\n${data.toString()}` });
+            errorOutput += data.toString();
         });
 
         runProcess.on('close', (code) => {
             cleanUpFiles(inputFile, outputFile); // Clean up after execution
-            res.json({ output });
+            if (code !== 0) {
+                // If the process exits with a non-zero code, return a runtime error response
+                return res.status(500).json({ output: `Runtime Error:\n${errorOutput || 'Unknown error'}` });
+            }
+            // Return the output
+            res.json({ output: output.trim() || 'No output from the program.' });
+        });
+
+        runProcess.on('error', (error) => {
+            console.error('Process Error:', error);
+            return res.status(500).json({ output: `Process Error: ${error.message}` });
         });
     });
 });
