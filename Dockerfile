@@ -21,6 +21,7 @@ RUN apt-get update && apt-get install -y gcc g++ make
 
 # Install nodemon globally if you use it for development
 RUN npm install -g nodemon
-
+# Expose the port your app will listen on (e.g., 5000)
+EXPOSE 5000
 # Start the application with nodemon
 CMD ["nodemon", "index.js"]
