@@ -18,13 +18,17 @@ app.use(bodyParser.json());
 // Helper function to clean up temporary files
 const cleanUpFiles = (inputFile, outputFile) => {
     try {
-        if (fs.existsSync(inputFile)) fs.unlinkSync(inputFile); 
-        if (fs.existsSync(outputFile + '.exe')) fs.unlinkSync(outputFile + '.exe'); 
+        if (fs.existsSync(inputFile)) fs.unlinkSync(inputFile);
+        if (fs.existsSync(outputFile + '.exe')) fs.unlinkSync(outputFile + '.exe');
         if (fs.existsSync(outputFile)) fs.unlinkSync(outputFile);
     } catch (err) {
         console.error('Error cleaning up files:', err);
     }
 };
+app.get("/", (req, res) => {
+    res.send("Hello World");
+
+})
 
 // Endpoint to compile and run C++ code
 app.post('/run', (req, res) => {
