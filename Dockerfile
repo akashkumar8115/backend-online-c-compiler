@@ -4,6 +4,9 @@ FROM node:latest
 # Set the working directory inside the container
 WORKDIR /app
 
+# Update npm to the latest version
+RUN npm install -g npm@latest
+
 # Copy package.json and package-lock.json (if available)
 COPY package*.json ./
 
