@@ -5,7 +5,7 @@ const { exec, spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-
+require('dotenv').config();
 const app = express();
 
 // CORS setup
@@ -28,6 +28,11 @@ const cleanUpFiles = (inputFile, outputFile) => {
         console.error('Error cleaning up files:', err);
     }
 };
+
+app.get('/', (req, res) => {
+    res.send('Hello, this Node.js server is accessible on your network!');
+});
+
 
 // POST route to compile and execute C++ code with input
 app.post('/run', (req, res) => {
@@ -94,7 +99,9 @@ app.post('/run', (req, res) => {
     });
 });
 
+const PORT = process.env.PORT || 5000; 
+const HOST = process.env.HOST || '127.0.0.1'; // Use host from .env or default to localhost
 // Start the server on port 5000
-app.listen(5000, () => {
-    console.log('Server is running on port 5000');
+app.listen(PORT, HOST, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
