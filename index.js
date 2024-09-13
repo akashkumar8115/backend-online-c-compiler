@@ -10,7 +10,7 @@ const app = express();
 
 // CORS setup
 app.use(cors({
-    origin: 'https://online-cpp-compiler-pearl.vercel.app/api', // Allow this origin
+    origin: 'https://online-cpp-compiler-pearl.vercel.app', // Allow this origin
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Ensure OPTIONS is included
     allowedHeaders: ['Content-Type'], // Add headers you expect to use
     credentials: true, // Allow cookies and headers
@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 
 
 // POST route to compile and execute C++ code with input
-app.post('/run', (req, res) => {
+app.post('/api/run', (req, res) => {
     const code = req.body.code;
     const input = req.body.input || ''; // Ensure input has a default value (empty string)
     const tempDir = os.tmpdir();  // Temporary directory to store the code file
