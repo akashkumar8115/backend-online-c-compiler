@@ -10,14 +10,17 @@ const app = express();
 
 // CORS setup
 app.use(cors({
-    origin: 'https://online-cpp-compiler-pearl.vercel.app/', // Replace with the exact origin of your React app
-    methods: ['GET', 'POST', 'DELETE', 'PUT'],
-    allowedHeaders: ['Content-Type'],
-    credentials: true, // Allow credentials (cookies, headers, etc.)
+    origin: 'https://online-cpp-compiler-pearl.vercel.app', // Allow this origin
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Ensure OPTIONS is included
+    allowedHeaders: ['Content-Type', 'Authorization'], // Add headers you expect to use
+    credentials: true, // Allow cookies and headers
 }));
+
 
 // Middleware for parsing JSON requests
 app.use(bodyParser.json());
+app.options('*', cors()); // Handle preflight requests
+
 
 // Helper function to clean up temporary files
 const cleanUpFiles = (inputFile, outputFile) => {
