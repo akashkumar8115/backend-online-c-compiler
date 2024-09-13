@@ -10,9 +10,10 @@ const app = express();
 
 // CORS setup
 app.use(cors({
-    origin: 'https://online-cpp-compiler-pearl.vercel.app/',
+    origin: 'https://online-cpp-compiler-pearl.vercel.app', // Replace with the exact origin of your React app
     methods: ['GET', 'POST', 'DELETE', 'PUT'],
-    allowedHeaders: ['Content-Type']
+    allowedHeaders: ['Content-Type'],
+    credentials: true, // Allow credentials (cookies, headers, etc.)
 }));
 
 // Middleware for parsing JSON requests
@@ -66,7 +67,7 @@ app.post('/run', (req, res) => {
         const runProcess = spawn(outputFile, [], { stdio: ['pipe', 'pipe', 'pipe'] });
 
         // Pass input to the process with a newline
-        runProcess.stdin.write(input + '\n'); 
+        runProcess.stdin.write(input + '\n');
         runProcess.stdin.end(); // Close input stream
 
         let output = '';
@@ -99,7 +100,7 @@ app.post('/run', (req, res) => {
     });
 });
 
-const PORT = process.env.PORT || 5000; 
+const PORT = process.env.PORT || 5000;
 const HOST = process.env.HOST || '127.0.0.1'; // Use host from .env or default to localhost
 // Start the server on port 5000
 app.listen(PORT, HOST, () => {
