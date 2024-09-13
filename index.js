@@ -10,7 +10,7 @@ const app = express();
 
 // CORS setup
 app.use(cors({
-    origin: 'https://online-cpp-compiler-pearl.vercel.app', // Replace with the exact origin of your React app
+    origin: 'https://online-cpp-compiler-pearl.vercel.app/', // Replace with the exact origin of your React app
     methods: ['GET', 'POST', 'DELETE', 'PUT'],
     allowedHeaders: ['Content-Type'],
     credentials: true, // Allow credentials (cookies, headers, etc.)
