@@ -10,9 +10,9 @@ const app = express();
 
 // CORS setup
 app.use(cors({
-    origin: 'https://online-cpp-compiler-pearl.vercel.app', // Allow this origin
+    origin: 'https://online-cpp-compiler-pearl.vercel.app/api', // Allow this origin
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Ensure OPTIONS is included
-    allowedHeaders: ['Content-Type', 'Authorization'], // Add headers you expect to use
+    allowedHeaders: ['Content-Type'], // Add headers you expect to use
     credentials: true, // Allow cookies and headers
 }));
 
