@@ -10,7 +10,7 @@ const app = express();
 
 // CORS setup
 app.use(cors({
-    origin: '*',
+    origin: 'https://online-cpp-compiler-pearl.vercel.app/',
     methods: ['GET', 'POST', 'DELETE', 'PUT'],
     allowedHeaders: ['Content-Type']
 }));
